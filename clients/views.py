@@ -22,12 +22,12 @@ def register(request):
     })
 
 def login(request):
-    username = request.POST['login']
+    username = request.POST['username']
     password = request.POST['password']
-    user = auth.authenticate(login=username, password=password)
+    user = auth.authenticate(username=username, password=password)
     if user is not None and user.is_active:
         auth.login(request, user)
-        return HttpResponseRedirect("/login.html")
+        return HttpResponseRedirect("/index.html")
     else:
         return HttpResponseRedirect()
 
