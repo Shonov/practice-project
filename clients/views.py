@@ -1,3 +1,4 @@
+from django.contrib import auth
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -16,6 +17,20 @@ def register(request):
             return HttpResponseRedirect("/")
     else:
         form = UserCreationForm()
-    return render(request, "register.html", {
+    return render(request, "clients/register.html", {
         'form': form,
     })
+
+def login(request):
+    username = request.POST['login']
+    password = request.POST['password']
+    user = auth.authenticate(login=username, password=password)
+    if user is not None and user.is_active:
+        auth.login(request, user)
+        return HttpResponseRedirect("/login.html")
+    else:
+        return HttpResponseRedirect()
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect("/")
