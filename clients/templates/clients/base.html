@@ -1,18 +1,20 @@
 {% load staticfiles %}
+
 <link rel="stylesheet" type="text/css" href="{% static 'clients/style.css' %}" />
 
-<nav class="top-bar" data-topbar role="navigation">
-  <section class="top-bar-section">
 
-      <ul>
+<nav class="top-bar">
+    <ul>
       {% if not user.is_anonymous %}
-      <li><a href="#">{{ user }}</a></li>
-      <li><a href="{% url 'logout' %}">Выйти</a></li>#}
+          <li><a href="/">{{ user }}</a></li>
+          <li><a href="{% url 'logout' %}">Выйти</a></li>
       {% else %}
-      <li><a href="{% url 'register.html' %}">Зарегистрироваться</a></li>
-      <li><a href="{% url 'login.html' %}">Войти</a></li>
+          <li><a href="{% url 'register' %}">Зарегистрироваться</a></li>
+          <li><a href="{% url 'login' %}">Войти</a></li>
       {% endif %}
     </ul>
 
-  </section>
 </nav>
+
+    {% block content %}
+    {% endblock %}

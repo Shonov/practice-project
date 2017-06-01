@@ -1,36 +1,17 @@
-from django.contrib import auth
-from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
-from clients.models import Client
+from clients.forms import RegisterForm
 
 
 def index(request):
-    client = Client.objects.all()
-    return render(request, 'clients/index.html', {'clients': client})
+    return render(request, 'clients/index.html')
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
-            new_user = form.save()
-            return HttpResponseRedirect("/")
+            user = form.save()
+            user.save()
+            return redirect('/')
     else:
-        form = UserCreationForm()
-    return render(request, "clients/register.html", {
-        'form': form,
-    })
-
-def login(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = auth.authenticate(username=username, password=password)
-    if user is not None and user.is_active:
-        auth.login(request, user)
-        return HttpResponseRedirect("/index.html")
-    else:
-        return HttpResponseRedirect()
-
-def logout(request):
-    auth.logout(request)
-    return HttpResponseRedirect("/")
+        form = RegisterForm()
+    return render(request, 'clients/register.html', {'form': form})
