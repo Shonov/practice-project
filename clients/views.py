@@ -44,6 +44,19 @@ def register(request):
     return render(request, 'clients/register.html', {'form': form})
 
 
+def create_client(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.save()
+            return redirect('/')
+    else:
+        form = RegisterForm()
+    return render(request, 'clients/register.html', {'form': form})
+
+
+
 def activate(request, id, token):
     """
 
