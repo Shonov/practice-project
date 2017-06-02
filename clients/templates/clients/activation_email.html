@@ -1,0 +1,6 @@
+{% autoescape off %}
+Hello, {{ user.last_name }}.
+
+Please click on the link below to confirm your registration:
+http://{{ domain }}{% url 'activate' id token %}
+{% endautoescape %}
