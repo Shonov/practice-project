@@ -1,12 +1,13 @@
 {% extends "clients/base.html" %}
 
-{% block title %}Регистрация{% endblock %}
+{% block title %}Sign up{% endblock %}
 
 {% block content %}
-  <h1>Регистрация пользователя</h1>
+
 
 <form  method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    <h4>Sign up</h4>
 
   {% for field in form %}
 
@@ -18,7 +19,7 @@
 
     {% endfor %}
 
-    <button type="submit">Зарегистрироваться</button>
+    <button type="submit">Sign up</button>
   </form>
 
 {% endblock %}
