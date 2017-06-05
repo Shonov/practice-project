@@ -52,7 +52,11 @@ footer {
     top: 50px;
 	left: 0;
 	background-color: darkblue;
-	text-align: center;
+}
+
+footer p {
+	padding: 10px 0px;
+	margin-left: 30px;
 }
 
 a {
@@ -68,8 +72,38 @@ button {
 	padding: 8px 10px;
 }
 
-.top-bar{
+form {
+	width: 17%;
+	padding: 20px;
+    margin: 50px auto 0;
+    text-align: left;
+	/*background-color: ;*/
+	border: 1px solid;
+	border-radius: 3px;
+}
 
+form h4 {
+	margin: 20px;
+	font-size: 28px;
+	text-align: center;
+}
+
+form input {
+	width: 97%;
+	margin: 10px 0px;
+	display: block;
+	border: none;
+	padding: 5px;
+}
+
+form button {
+    display:inline-block;
+    float:right;
+    margin: 0;
+}
+
+form label {
+	margin: 10px 0px;
 }
 
 .top-bar ul li {
@@ -80,5 +114,10 @@ button {
 	font: 26px/26px monospace, Verdana, Arial, sans-serif;
 	color: #eee;
 	display: inline-block;
-    /*margin-top: 20px;*/
+}
+
+.error {
+    font: normal 26px/18px Verdana, Arial, sans-serif;
+    color: red;
+    text-align: center;
 }

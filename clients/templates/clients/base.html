@@ -5,6 +5,7 @@
 <header>
     <a class="logo" href="/">Web site</a>
     <nav class="top-bar">
+
         <ul>
           {% if not user.is_anonymous %}
               <li><a href="/">{{ user }}</a></li>
@@ -22,5 +23,5 @@
     {% endblock %}
 
 <footer>
-    <p>@copy</p>
+    <p>&    copy</p>
 </footer>
