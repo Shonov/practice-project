@@ -102,6 +102,10 @@ form button {
     margin: 0;
 }
 
+form select {
+	margin-top: 10px;
+}
+
 form label {
 	margin: 10px 0px;
 }

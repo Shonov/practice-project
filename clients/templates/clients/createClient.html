@@ -1,13 +1,14 @@
 {% extends "clients/base.html" %}
 
-{% block title %}Sign up{% endblock %}
+{% block title %}Create of client{% endblock %}
 
 {% block content %}
 
 
-<form  method="post">
+<form  method="post"  enctype="multipart/form-data">
     {% csrf_token %}
-    <h4>Sign up</h4>
+
+    <h4>Create of client</h4>
 
   {% for field in form %}
 

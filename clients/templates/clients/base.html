@@ -9,6 +9,7 @@
         <ul>
           {% if not user.is_anonymous %}
               <li><a href="/">{{ user }}</a></li>
+              <li><a href="{% url 'create_client' %}">Create client</a>
               <li><a href="{% url 'logout' %}">Logout</a></li>
           {% else %}
               <li><a href="{% url 'register' %}">Sign up</a></li>
@@ -23,5 +24,5 @@
     {% endblock %}
 
 <footer>
-    <p>&    copy</p>
+    <p>&copy In the roles: Denis Yavich and Vitaly Shonov</p>
 </footer>
