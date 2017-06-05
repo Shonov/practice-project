@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.sites.shortcuts import get_current_site
@@ -27,7 +28,7 @@ def activate(request, id, token):
         login(request, user)
         return redirect('/')
 
-
+@login_required(login_url='/login/')
 def create_client(request):
     if request.method == 'POST':
         form = ClientRegisterForm(request.POST, request.FILES)
