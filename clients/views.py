@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 import hashlib
 import random
 
-from clients.forms import RegisterForm
+from clients.forms import RegisterForm, ClientRegisterForm
 
 
 def index(request):
@@ -42,18 +42,6 @@ def register(request):
     return render(request, 'clients/register.html', {'form': form})
 
 
-def create_client(request):
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            user.save()
-            return redirect('/')
-    else:
-        form = RegisterForm()
-    return render(request, 'clients/createClient.html', {'form': form})
-
-
 def activate(request, id, token):
     """
     User activation
@@ -69,3 +57,15 @@ def activate(request, id, token):
         user.save()
         login(request, user)
         return redirect('/')
+
+
+def create_client(request):
+    if request.method == 'POST':
+        form = ClientRegisterForm(request.POST)
+        if form.is_valid():
+            client = form.save()
+            client.save()
+            return redirect('/')
+    else:
+        form = ClientRegisterForm()
+    return render(request, 'clients/createClient.html', {'form': form})

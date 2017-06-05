@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 class Client(models.Model):
     creator = models.ForeignKey('auth.User')
-    name = models.TextField(max_length=50)
-    surname = models.TextField(max_length=50)
+    name = models.CharField(max_length=50)
+    surname = models.CharField(max_length=50)
     birthDay = models.DateField()
     photo = models.ImageField(upload_to="photos/")
 

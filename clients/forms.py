@@ -19,4 +19,4 @@ class Profile(models.Model):
 class ClientRegisterForm(ModelForm):
     class Meta:
         model = Client
-        fields = ('name', 'surname', 'photo')
+        fields = ('photo', 'name', 'surname', 'birthDay')
