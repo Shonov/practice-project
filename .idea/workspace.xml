@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2dc017d2-399c-4dba-8e84-14f75aed7c84" name="Default" comment="debug №3">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+    <list default="true" id="2dc017d2-399c-4dba-8e84-14f75aed7c84" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clients/static/clients/style.css" afterPath="$PROJECT_DIR$/clients/static/clients/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clients/templates/clients/base.html" afterPath="$PROJECT_DIR$/clients/templates/clients/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clients/templates/clients/login.html" afterPath="$PROJECT_DIR$/clients/templates/clients/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clients/templates/clients/register.html" afterPath="$PROJECT_DIR$/clients/templates/clients/register.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clients/views.py" afterPath="$PROJECT_DIR$/clients/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -561,7 +555,14 @@
       <option name="project" value="LOCAL" />
       <updated>1496229342773</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add front-end">
+      <created>1496647428359</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1496647428359</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView">
@@ -627,7 +628,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="debug" />
-    <option name="LAST_COMMIT_MESSAGE" value="debug" />
+    <MESSAGE value="add front-end" />
+    <option name="LAST_COMMIT_MESSAGE" value="add front-end" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
