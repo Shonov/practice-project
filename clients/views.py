@@ -17,9 +17,7 @@ def index(request):
 
 def register(request):
     """
-
     registration of user with sending message and confirmation on mail
-
     """
 
     if request.method == 'POST':
@@ -59,9 +57,7 @@ def create_client(request):
 
 def activate(request, id, token):
     """
-
     User activation
-
     """
 
     try:
