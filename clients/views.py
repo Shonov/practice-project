@@ -51,8 +51,7 @@ def create_client(request):
             return redirect('/')
     else:
         form = RegisterForm()
-    return render(request, 'clients/register.html', {'form': form})
-
+    return render(request, 'clients/createClient.html', {'form': form})
 
 
 def activate(request, id, token):

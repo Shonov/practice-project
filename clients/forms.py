@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import ModelForm
 
 from clients.models import Client
 
@@ -15,7 +16,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User)
 
 
-class ClientRegisterForm(forms.ModelForm):
+class ClientRegisterForm(ModelForm):
     class Meta:
         model = Client
-        fields = ('name', 'surname', 'birthDay', 'photo')
+        fields = ('name', 'surname', 'photo')
