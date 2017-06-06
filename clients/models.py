@@ -6,7 +6,7 @@ class Client(models.Model):
     name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
     birth_Day = models.DateField()
-    photo = models.ImageField(upload_to="photos/")
+    photo = models.ImageField(upload_to="clients/photos/", blank=True)
 
     @property
     def age(self):

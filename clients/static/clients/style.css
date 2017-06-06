@@ -128,7 +128,23 @@ td {
   padding: 8px;
 }
 
-tr:hover td {background: #ccddff;}
+tr:hover td {
+	background: #ccddff;
+}
+
+div {
+  display: none; } /* Делаем блок по-умолчанию невидимым */
+
+div:target {
+  display: block; } /* Выделенный блок видим */
+
+/* Теперь магия, т.е. регулярные выражения, для удобства */
+
+div[id*=t]:target ~ #one { /* Для всех блоков, содержащих "t" в идентификаторе, делаем #one невидимым */
+  display: none; } /* Обошлись одной буквой конкретно в этом случае, иначе придётся просто прописывать "tab" для всех вкладок сразу и отдельно для каждого не-#one */
+
+div[id*=tab]:target ~ #three { /* На последок, для всех вкладок делаем третью страницу видимой */
+  display: none; }
 
 .top-bar ul li {
     list-style-type: none;
