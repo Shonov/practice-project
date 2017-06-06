@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "clients/base.html" %}
+
+{% block title %}List of clients{% endblock %}
+
+{% block content %}
+
+    <table border="1">
+        <caption>Clients</caption>
+
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Birth Day</th>
+        </tr>
+           {% for client in client_list %}
+        <tr>
+            <td><a href="{% url 'info_clients' pk=client.pk %}"> {{ client.name }} </a></td>
+            <td><a href="{% url 'info_clients' pk=client.pk %}"> {{ client.surname }} </a></td>
+            <td><a href="{% url 'info_clients' pk=client.pk %}"> {{ client.birth_Day }} </a></td>
+        </tr>
+           {% endfor %}
+
+    </table>
+
+{% endblock %}

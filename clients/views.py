@@ -2,14 +2,18 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
+from django.utils.decorators import method_decorator
+
+from django.views.generic import DeleteView, ListView
 
 import hashlib
 import random
 
 from clients.forms import RegisterForm, ClientRegisterForm
+from clients.models import Client
 
 
 def activate(request, id, token):
@@ -28,6 +32,7 @@ def activate(request, id, token):
         login(request, user)
         return redirect('/')
 
+
 @login_required(login_url='/login/')
 def create_client(request):
     if request.method == 'POST':
@@ -44,6 +49,21 @@ def create_client(request):
 
 def index(request):
     return render(request, 'clients/index.html')
+
+
+class InfoClients(ListView):
+    model = Client
+    template_name = "clients/info_clients.html"
+
+    @method_decorator(login_required())
+    def dispatch(self, request, *args, **kwargs):
+        return super(InfoClients, self).dispatch(request, *args, **kwargs)
+
+
+def client_details(request, pk):
+    client = get_object_or_404(Client, pk=pk)
+    form = RegisterForm()
+    return render(request, 'clients/client_details.html', {'form': form, 'client': client})
 
 
 def register(request):
