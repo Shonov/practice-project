@@ -1,13 +1,15 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.sites.shortcuts import get_current_site
+from django.http import Http404
 from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
 
-from django.views.generic import DeleteView, ListView
+from django.views.generic import DeleteView, ListView, DetailView
 
 import hashlib
 import random
@@ -60,11 +62,17 @@ class InfoClients(ListView):
         return super(InfoClients, self).dispatch(request, *args, **kwargs)
 
 
-def client_details(request, pk):
-    client = get_object_or_404(Client, pk=pk)
-    form = RegisterForm()
-    return render(request, 'clients/client_details.html', {'form': form, 'client': client})
+class ClientDetails(LoginRequiredMixin, DetailView):
+    login_url = '/login/'
+    model = Client
+    context_object_name = 'client'
+    template_name = 'clients/client_details.html'
 
+    def get_object(self):
+        object = super(ClientDetails, self).get_object()
+        if not self.request.user.is_authenticated():
+            raise Http404
+        return object
 
 def register(request):
     """

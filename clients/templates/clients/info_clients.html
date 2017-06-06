@@ -3,10 +3,8 @@
 {% block title %}List of clients{% endblock %}
 
 {% block content %}
-
     <table border="1">
         <caption>Clients</caption>
-
         <tr>
             <th>Name</th>
             <th>Username</th>
@@ -19,7 +17,6 @@
             <td><a href="{% url 'info_clients' pk=client.pk %}"> {{ client.birth_Day }} </a></td>
         </tr>
            {% endfor %}
-
     </table>
 
 {% endblock %}
