@@ -1,3 +1,4 @@
+import datetime
 from django.contrib.auth.forms import UserCreationForm
 from django.db import models
 from django.contrib.auth.models import User
@@ -22,6 +23,8 @@ class ClientRegisterForm(ModelForm):
         model = Client
         fields = ('photo', 'name', 'surname', 'birth_Day', )
 
+        year = datetime.date.today().year
+
         widgets = {
-            'birth_Day': SelectDateWidget()
+            'birth_Day': SelectDateWidget(years=range(year, year-100, -1))
         }
