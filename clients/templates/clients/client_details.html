@@ -1,5 +1,4 @@
 {% extends "clients/base.html" %}
-{% load staticfiles %}
 
 {% block title %}Information of client{% endblock %}
 
@@ -15,7 +14,9 @@
             <td><a href="{% url 'info_clients' pk=client.pk %}"> {{ client.name }} </a></td>
             <td> {{ client.surname }} </td>
             <td> {{ client.birth_Day }} </td>
-            <td><img src="{% static client.photo  %}"></td>
+            {% if client.photo %}
+                <td><img src="{{MEDIA_URL}}{{client.photo.url}} "></td>
+            {% endif %}
         </tr>
     </table>
 {% endblock %}

@@ -53,7 +53,7 @@ def index(request):
     return render(request, 'clients/index.html')
 
 
-class InfoClients(ListView):
+class InfoClients(LoginRequiredMixin, ListView):
     model = Client
     template_name = "clients/info_clients.html"
 
