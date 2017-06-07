@@ -2,7 +2,6 @@ from django.conf.urls import url
 from clients import views
 from django.contrib.auth import views as auth_views
 
-
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^register/$', views.register, name='register'),
@@ -12,7 +11,5 @@ urlpatterns = [
     url(r'^create_client/$', views.create_client, name='create_client'),
     url(r'^info_clients/$', views.InfoClients.as_view(), name='info_clients'),
     url(r'^info_clients/(?P<pk>[0-9]+)/$', views.ClientDetails.as_view(), name='info_clients'),
+    url (r'^info_clients/(?P<pk>[0-9]+)/$', views.DeleteClient.as_view(), name='delete_clients'),
 ]
-
-
-

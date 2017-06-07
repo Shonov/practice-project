@@ -4,7 +4,7 @@
 {% block title %}Information of client{% endblock %}
 
 {% block content %}
-        <table border="1">
+    <table border="1">
         <caption>Clients</caption>
         <tr>
             <th>Name</th>
@@ -15,7 +15,8 @@
             <td><a href="{% url 'info_clients' pk=client.pk %}"> {{ client.name }} </a></td>
             <td> {{ client.surname }} </td>
             <td> {{ client.birth_Day }} </td>
-            <td><img src="{% static client.photo  %}"></td>
+            <td><img src="{% static client.photo %}"></td>
+            <td><a href="{% url 'delete_clients' pk=client.pk %}">Delete</a></td>
         </tr>
     </table>
 {% endblock %}
