@@ -1,9 +1,10 @@
 {% extends "clients/base.html" %}
+{% load staticfiles %}
 
 {% block title %}Information of client{% endblock %}
 
 {% block content %}
-        <table border="1">
+    <table border="1">
         <caption>Clients</caption>
         <tr>
             <th>Name</th>
@@ -17,6 +18,7 @@
             {% if client.photo %}
                 <td><img src="{{MEDIA_URL}}{{client.photo.url}} "></td>
             {% endif %}
+            <td><a href="{% url 'delete_clients' pk=client.pk %}">Delete</a></td>
         </tr>
     </table>
 {% endblock %}
