@@ -104,12 +104,15 @@ def register(request):
 
 class DeleteClient(DeleteView):
     model = Client
-    template_name = 'clients/client_details.html'
-    success_url = '/info_clients/'
+    # template_name = 'clients/client_details.html'
+    # success_url = '/info_clients/'
 
-    def get_object(self, queryset=None):
-        """ Hook to ensure object is owned by request.user. """
+    def get_success_url(self):
+        return reverse('/info_clients/')
+
+    def get_object(self):
         obj = super(DeleteClient, self).get_object()
-        if not obj.owner == self.request.user:
+        if not obj.id == self.request.user.pk:
             raise Http404
         return obj
+

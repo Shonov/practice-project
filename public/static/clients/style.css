@@ -88,6 +88,13 @@ form h4 {
 	text-align: center;
 }
 
+form img {
+	display: block;
+	margin: 0 auto 20px;
+	width: 150px;
+	height: 150px;
+}
+
 form input {
 	width: 97%;
 	margin: 10px 0px;
