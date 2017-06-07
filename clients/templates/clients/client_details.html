@@ -15,7 +15,9 @@
             <td><a href="{% url 'info_clients' pk=client.pk %}"> {{ client.name }} </a></td>
             <td> {{ client.surname }} </td>
             <td> {{ client.birth_Day }} </td>
-            <td><img src="{% static client.photo %}"></td>
+            {% if client.photo %}
+                <td><img src="{{MEDIA_URL}}{{client.photo.url}} "></td>
+            {% endif %}
             <td><a href="{% url 'delete_clients' pk=client.pk %}">Delete</a></td>
         </tr>
     </table>

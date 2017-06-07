@@ -116,9 +116,11 @@ USE_TZ = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'public/static'),
+)
+
 LOGIN_REDIRECT_URL = '/'
 
-FILE_UPLOAD_HANDLERS = [
-    "django.core.files.uploadhandler.MemoryFileUploadHandler",
-    "django.core.files.uploadhandler.TemporaryFileUploadHandler",
-]
+MEDIA_URL = '/public/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public')
