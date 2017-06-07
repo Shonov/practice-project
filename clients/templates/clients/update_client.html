@@ -1,0 +1,28 @@
+{% extends "clients/base.html" %}
+{% load staticfiles %}
+
+{% block title %}Editing a customer profile{% endblock %}
+
+{% block content %}
+
+<form  method="post" enctype="multipart/form-data" action="{% url 'update_client' object.id  %}" >
+    {% csrf_token %}
+    <h4>Update of client</h4>
+
+    {% if form.photo %}
+        <label for="id_photo">Avatar:</label><br>
+        <img src="{{ MEDIA_URL }}{{ client.photo.url }} ">
+    {% endif %}
+
+    {% for field in form %}
+
+        {{ field.label_tag }}<br>
+        {{ field }}<br>
+
+    {% endfor %}
+
+    <button type="submit">Update</button>
+    <button  type="button" onclick="window.history.go(-1);">Back</button>
+  </form>
+
+{% endblock %}

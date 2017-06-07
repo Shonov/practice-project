@@ -8,14 +8,58 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
+from django.urls import reverse
 
-from django.views.generic import DeleteView, ListView, DetailView
+from django.views.generic import DeleteView, ListView, DetailView, UpdateView
 
 import hashlib
 import random
 
 from clients.forms import RegisterForm, ClientRegisterForm
 from clients.models import Client
+
+
+class InfoClients(LoginRequiredMixin, ListView):
+    model = Client
+    template_name = "clients/info_clients.html"
+
+    @method_decorator(login_required())
+    def dispatch(self, request, *args, **kwargs):
+        return super(InfoClients, self).dispatch(request, *args, **kwargs)
+
+
+class ClientDetails(LoginRequiredMixin, DetailView):
+    login_url = '/login/'
+    model = Client
+    context_object_name = 'client'
+    template_name = 'clients/client_details.html'
+
+    def get_object(self):
+        object = super(ClientDetails, self).get_object()
+        if not self.request.user.is_authenticated():
+            raise Http404
+        return object
+
+
+class DeleteClient(DeleteView):
+    model = Client
+    template_name = 'clients/client_details.html'
+
+    def get_success_url(self):
+        return '/info_clients/'
+
+    def get_object(self):
+        obj = super(DeleteClient, self).get_object()
+        if not obj.creator_id == self.request.user.id:
+            raise Http404
+        return obj
+
+
+class UpdateClient(UpdateView):
+    form_class = ClientRegisterForm
+    model = Client
+    template_name = 'clients/update_client.html'
+    success_url = '/info_clients/'
 
 
 def activate(request, id, token):
@@ -53,28 +97,6 @@ def index(request):
     return render(request, 'clients/index.html')
 
 
-class InfoClients(LoginRequiredMixin, ListView):
-    model = Client
-    template_name = "clients/info_clients.html"
-
-    @method_decorator(login_required())
-    def dispatch(self, request, *args, **kwargs):
-        return super(InfoClients, self).dispatch(request, *args, **kwargs)
-
-
-class ClientDetails(LoginRequiredMixin, DetailView):
-    login_url = '/login/'
-    model = Client
-    context_object_name = 'client'
-    template_name = 'clients/client_details.html'
-
-    def get_object(self):
-        object = super(ClientDetails, self).get_object()
-        if not self.request.user.is_authenticated():
-            raise Http404
-        return object
-
-
 def register(request):
     """
     registration of user with sending message and confirmation on mail
@@ -100,19 +122,3 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'clients/register.html', {'form': form})
-
-
-class DeleteClient(DeleteView):
-    model = Client
-    # template_name = 'clients/client_details.html'
-    # success_url = '/info_clients/'
-
-    def get_success_url(self):
-        return reverse('/info_clients/')
-
-    def get_object(self):
-        obj = super(DeleteClient, self).get_object()
-        if not obj.id == self.request.user.pk:
-            raise Http404
-        return obj
-

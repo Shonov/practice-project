@@ -95,12 +95,26 @@ form img {
 	height: 150px;
 }
 
-form input {
-	width: 97%;
+label{
 	margin: 10px 0px;
-	display: block;
+}
+
+form input[type='checkbox'] {
+	display: inline;
+	margin: 10px 15px;
+}
+
+form input[type='text'] {
+	width: 100%;
+	margin: 10px 0px;
 	border: none;
 	padding: 5px;
+display: inline-block;
+}
+
+form input[type='file'] {
+	margin-top: -10px;
+	margin-bottom: 10px;
 }
 
 form button {

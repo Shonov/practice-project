@@ -4,22 +4,22 @@
 {% block title %}Information of client{% endblock %}
 
 {% block content %}
-    <form action="" method="post">
+    <form action="{% url 'delete_clients' object.id %}" method="post">
         {% csrf_token %}
 
         {% if client.photo %}
-                <img src="{{MEDIA_URL}}{{client.photo.url}} ">
+            <img src="{{ MEDIA_URL }}{{ client.photo.url }} ">
         {% endif %}
 
         <label>Name:</label>
-            {{ client.name }}<br>
+        {{ client.name }}<br>
 
         <label>Username:</label>
-            {{ client.surname }}<br>
+        {{ client.surname }}<br>
 
         <label>Birth Day:</label>
-            {{ client.birth_Day }}<br>
-
-     <button type="submit">Delete</button>
+        {{ client.birth_Day }}<br>
+        <button type="submit">Delete</button>
+        <a href="{% url 'update_client' object.id %}" class="button">Update</a>
     </form>
 {% endblock %}
