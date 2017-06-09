@@ -41,6 +41,10 @@ class ClientsListView(LoginRequiredMixin, ListView):
         context['order'] = self.ordering
         return context
 
+    def search(self):
+        if self.request.method == 'POST':
+            return Client.objects.filter(self.request.POST['search'])
+
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login/'
@@ -136,3 +140,14 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'clients/register.html', {'form': form})
+
+
+class DeleteClient(DeleteView):
+    model = Client
+    template_name = 'clients/client_details.html'
+    success_url = '/info_clients/'
+
+    def get_object(self):
+        obj = super(DeleteClient, self).get_object()
+        if not obj.creator_id == self.request.user.id:
+            return obj
