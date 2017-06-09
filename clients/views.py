@@ -8,6 +8,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
+from django.utils import six
 from django.urls import reverse
 
 from django.views.generic import DeleteView, ListView, DetailView, UpdateView
@@ -19,17 +20,27 @@ from clients.forms import RegisterForm, ClientRegisterForm
 from clients.models import Client
 
 
-class  ClientsListView(LoginRequiredMixin, ListView):
+class ClientsListView(LoginRequiredMixin, ListView):
     model = Client
     template_name = "clients/clients_list_view.html"
+    ordering = 'name'
 
     @method_decorator(login_required())
     def dispatch(self, request, *args, **kwargs):
         return super(ClientsListView, self).dispatch(request, *args, **kwargs)
 
     def get_ordering(self):
-        ordering = self.request.GET.get('ordering', None)
-        return ordering
+        self.ordering = self.request.GET.get('order', 'field')
+        order = self.request.GET.get('order', 'name')
+        if self.ordering == 'field':
+            order = "-" + order
+        return order
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ClientsListView, self).get_context_data(*args, **kwargs)
+        context['order'] = self.ordering
+        return context
+
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login/'

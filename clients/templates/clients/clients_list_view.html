@@ -7,9 +7,9 @@
         <table border="1">
             <caption>Clients</caption>
             <tr>
-                <th><a href="{% url 'sort' %}?ordering=name">Name</a></th>
-                <th><a href="{% url 'sort' %}?ordering=surname">Username</a></th>
-                <th><a href="{% url 'sort' %}?ordering=birth_Day">Birth Day</a></th>
+                <th><a href="{% url 'sort' %}?order={% if order == 'name' %}-name{% else %}name{% endif %}">Name</a></th>
+                <th><a href="{% url 'sort' %}?order={% if order == 'surname' %}-surname{% else %}surname{% endif %}">Username</a></th>
+                <th><a href="{% url 'sort' %}?order={% if order == 'birth_Day' %}-birth_Day{% else %}birth_Day{% endif %}">Birth Day</a></th>
             </tr>
                 {% for client in client_list %}
             <tr>
