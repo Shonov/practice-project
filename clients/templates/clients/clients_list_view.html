@@ -4,12 +4,14 @@
 
 {% block content %}
 
-    <form id="form_search" action="{% url 'search' %}" method="post">
-        {% csrf_token %}
-        <input type="search" name="search">
-{#        <a href="{% url 'search' object.search %}" class="button">Update</a>#}
-        <button type="submit">Search</button>
-    </form>
+{#    <form id="form_search" action="{% url 'search' %}" method="post">#}
+{#        {% csrf_token %}#}
+{#       <h1>Search</h1>#}
+{##}
+{#        <input type="search" name="search">#}
+{#        <button type="submit">Search</button>#}
+{#    </form>#}
+
     <form id="form_sort" method="get">
         <table border="1">
             <caption>Clients</caption>

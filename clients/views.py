@@ -44,10 +44,13 @@ class ClientsListView(LoginRequiredMixin, ListView):
         context['order'] = self.ordering
         return context
 
-    # def search(self):
-    #     if self.request.method == 'POST':
-    #         return Client.objects.filter(self.request.POST['search'])
-
+    def search(self):
+        if
+        client_list = Client.objects.all().filter(self.request.GET)
+        client_list = Client.objects.all()
+        client_filter = UserFilter(queryset=client_list)
+        print(self.request.GET)
+        return render(self, 'clients/search.html', {'filter': client_filter})
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login/'
@@ -111,7 +114,7 @@ def create_client(request):
             return redirect('/')
     else:
         form = ClientRegisterForm()
-    return render(request, 'clients/createClient.html', {'form': form})
+    return render(request, 'clients/client_add.html', {'form': form})
 
 
 def index(request):
@@ -158,4 +161,4 @@ class Search():
     def search(request):
         user_list = User.objects.all()
         user_filter = UserFilter(request.GET, queryset=user_list)
-        return render(request, 'search/user_list.html', {'filter': user_filter})
+        return render(request, 'search/search.html', {'filter': user_filter})

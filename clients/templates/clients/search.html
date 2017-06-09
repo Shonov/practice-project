@@ -1,0 +1,47 @@
+{% extends 'clients/base.html' %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+
+    <form method="get" action="{% url 'search' %}">
+        {% csrf_token %}
+        <h4>Search</h4>
+
+        {% for field in filter.form %}
+
+            {{ field.label_tag }}<br>
+            {{ field }}<br>
+            {% for error in field.errors %}
+              <p style="color: red">{{ error }}</p>
+            {% endfor %}
+
+        {% endfor %}
+
+        <button type="submit">Search</button>
+    </form>
+
+    <form id="form_sort">
+
+        <table border="1">
+            <caption>Result</caption>
+
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Birth Day</th>
+            </tr>
+
+            {% for client in filter.qs %}
+                <tr>
+                    <td>{{ client.name}}</td>
+                    <td>{{ client.surname}}</td>
+                    <td>{{ client.birth_Day}}</td>
+                </tr>
+            {% endfor %}
+
+        </table>
+    {{ filter.qs }}
+    </form>
+
+{% endblock %}

@@ -11,7 +11,7 @@ from clients.models import Client
 class RegisterForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('username', 'last_name', 'first_name', 'email',)
+        fields = ('username', 'last_name', 'first_name', 'email')
 
 
 class Profile(models.Model):
@@ -21,7 +21,7 @@ class Profile(models.Model):
 class ClientRegisterForm(ModelForm):
     class Meta:
         model = Client
-        fields = ('photo', 'name', 'surname', 'birth_Day',)
+        fields = ('photo', 'name', 'surname', 'birth_Day')
 
         year = datetime.date.today().year
 

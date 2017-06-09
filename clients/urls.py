@@ -1,11 +1,10 @@
-from django.conf.urls import url
-from clients import views
-from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.conf import settings
 from django.conf.urls import url
-from mysite.search import views
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.auth import views as auth_views
+
+from clients import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -19,8 +18,7 @@ urlpatterns = [
     url(r'^info_clients/(?P<pk>[0-9]+)/$', views.ClientDetailView.as_view(), name='info_clients'),
     url(r'^info_clients/(?P<pk>[0-9]+)/delete/$', views.ClientDeleteView.as_view(), name='delete_clients'),
     url(r'^info_clients/(?P<pk>[0-9]+)/update/$', views.ClientUpdateView.as_view(), name='update_client'),
-    url(r'^info_clients/$', views.search, name='search'),
-    url(r'^search/$', views.search, name='search'),
+    url(r'^info_clients/search$', views.ClientsListView.search, name='search'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
