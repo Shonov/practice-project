@@ -10,6 +10,9 @@ from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
 from django.utils import six
 from django.urls import reverse
+from django.contrib.auth.models import User
+from django.shortcuts import render
+from .filters import UserFilter
 
 from django.views.generic import DeleteView, ListView, DetailView, UpdateView
 
@@ -41,9 +44,9 @@ class ClientsListView(LoginRequiredMixin, ListView):
         context['order'] = self.ordering
         return context
 
-    def search(self):
-        if self.request.method == 'POST':
-            return Client.objects.filter(self.request.POST['search'])
+    # def search(self):
+    #     if self.request.method == 'POST':
+    #         return Client.objects.filter(self.request.POST['search'])
 
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
@@ -151,3 +154,8 @@ class DeleteClient(DeleteView):
         obj = super(DeleteClient, self).get_object()
         if not obj.creator_id == self.request.user.id:
             return obj
+class Search():
+    def search(request):
+        user_list = User.objects.all()
+        user_filter = UserFilter(request.GET, queryset=user_list)
+        return render(request, 'search/user_list.html', {'filter': user_filter})
