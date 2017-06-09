@@ -19,29 +19,32 @@ from clients.forms import RegisterForm, ClientRegisterForm
 from clients.models import Client
 
 
-class InfoClients(LoginRequiredMixin, ListView):
+class  ClientsListView(LoginRequiredMixin, ListView):
     model = Client
-    template_name = "clients/info_clients.html"
+    template_name = "clients/clients_list_view.html"
 
     @method_decorator(login_required())
     def dispatch(self, request, *args, **kwargs):
-        return super(InfoClients, self).dispatch(request, *args, **kwargs)
+        return super(ClientsListView, self).dispatch(request, *args, **kwargs)
 
+    def get_ordering(self):
+        ordering = self.request.GET.get('ordering', None)
+        return ordering
 
-class ClientDetails(LoginRequiredMixin, DetailView):
+class ClientDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login/'
     model = Client
     context_object_name = 'client'
     template_name = 'clients/client_details.html'
 
     def get_object(self):
-        object = super(ClientDetails, self).get_object()
+        object = super(ClientDetailView, self).get_object()
         if not self.request.user.is_authenticated():
             raise Http404
         return object
 
 
-class DeleteClient(DeleteView):
+class ClientDeleteView(DeleteView):
     model = Client
     template_name = 'clients/client_details.html'
 
@@ -49,13 +52,13 @@ class DeleteClient(DeleteView):
         return '/info_clients/'
 
     def get_object(self):
-        obj = super(DeleteClient, self).get_object()
+        obj = super(ClientDeleteView, self).get_object()
         if not obj.creator_id == self.request.user.id:
             raise Http404
         return obj
 
 
-class UpdateClient(UpdateView):
+class ClientUpdateView(UpdateView):
     form_class = ClientRegisterForm
     model = Client
     template_name = 'clients/update_client.html'

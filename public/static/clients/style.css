@@ -95,26 +95,21 @@ form img {
 	height: 150px;
 }
 
-label{
-	margin: 10px 0px;
-}
-
-form input[type='checkbox'] {
-	display: inline;
-	margin: 10px 15px;
-}
-
-form input[type='text'] {
+form input {
 	width: 100%;
 	margin: 10px 0px;
 	border: none;
 	padding: 5px;
-display: inline-block;
+	display: inline-block;
 }
 
-form input[type='file'] {
-	margin-top: -10px;
-	margin-bottom: 10px;
+form input[type='checkbox'] {
+	width: 25px;
+	margin-left: 10px;
+}
+
+label{
+	margin: auto;
 }
 
 form button {
@@ -123,12 +118,30 @@ form button {
     margin: 0;
 }
 
-form select {
-	margin-top: 10px;
+.button {
+    -webkit-writing-mode: horizontal-tb;
+    -webkit-appearance: button;
+    box-sizing: border-box;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-align: center;
+    cursor: default;
+    color: buttontext;
+    margin: 0px  0px 0px 145px;
+	padding: 8px 10px;
+    border: 2px outset buttonface;
+    text-decoration: none;
+    text-transform: none;
+    text-shadow: none;
+    display: inline-block;
+    font: 13.3333px Arial;
+    height: auto;
+    float:right;
+
 }
 
-form label {
-	margin: 10px 0px;
+form select {
+	margin-top: 10px;
 }
 
 th {
@@ -181,4 +194,8 @@ div[id*=tab]:target ~ #three { /* На последок, для всех вкл�
     font: normal 26px/18px Verdana, Arial, sans-serif;
     color: red;
     text-align: center;
+}
+
+#form_sort {
+    border: none;
 }

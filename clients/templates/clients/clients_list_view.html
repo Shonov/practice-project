@@ -1,0 +1,23 @@
+{% extends "clients/base.html" %}
+
+{% block title %}List of clients{% endblock %}
+
+{% block content %}
+    <form id="form_sort" method="get">
+        <table border="1">
+            <caption>Clients</caption>
+            <tr>
+                <th><a href="{% url 'sort' %}?ordering=name">Name</a></th>
+                <th><a href="{% url 'sort' %}?ordering=surname">Username</a></th>
+                <th><a href="{% url 'sort' %}?ordering=birth_Day">Birth Day</a></th>
+            </tr>
+                {% for client in client_list %}
+            <tr>
+                <td><a href="{% url 'info_clients' pk=client.pk%}"> {{ client.name }} </a></td>
+                <td><a href="{% url 'info_clients' pk=client.pk%}"> {{ client.surname }} </a></td>
+                <td><a href="{% url 'info_clients' pk=client.pk%}"> {{ client.birth_Day }} </a></td>
+            </tr>
+                {% endfor %}
+        </table>
+    </form>
+{% endblock %}
