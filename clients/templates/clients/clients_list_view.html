@@ -3,16 +3,22 @@
 {% block title %}List of clients{% endblock %}
 
 {% block content %}
+    <form method="get" action="{% url 'search' %}">
+        {% csrf_token %}
+        <h4>Search</h4>
 
-{#    <form id="form_search" action="{% url 'search' %}" method="post">#}
-{#        {% csrf_token %}#}
-{#       <h1>Search</h1>#}
-{##}
-{#        <input type="search" name="search">#}
-{#        <button type="submit">Search</button>#}
-{#    </form>#}
+        <label for="id_name">Name:</label><br>
+            <input type="search" name="name" maxlength="30" id="id_name" /><br>
+
+        <label for="id_surname">Surname:</label><br>
+            <input type="search" name="surname" maxlength="30" id="id_surname" /><br>
+
+        <button type="submit">Search</button>
+    </form>
 
     <form id="form_sort" method="get">
+
+
         <table border="1">
             <caption>Clients</caption>
             <tr>
@@ -29,4 +35,5 @@
             {% endfor %}
         </table>
     </form>
+
 {% endblock %}

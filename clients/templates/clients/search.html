@@ -8,15 +8,11 @@
         {% csrf_token %}
         <h4>Search</h4>
 
-        {% for field in filter.form %}
+        <label for="id_name">Name:</label><br>
+            <input type="search" name="name" maxlength="30" id="id_name" /><br>
 
-            {{ field.label_tag }}<br>
-            {{ field }}<br>
-            {% for error in field.errors %}
-              <p style="color: red">{{ error }}</p>
-            {% endfor %}
-
-        {% endfor %}
+        <label for="id_surname">Surname:</label><br>
+            <input type="search" name="surname" maxlength="30" id="id_surname" /><br>
 
         <button type="submit">Search</button>
     </form>
@@ -41,7 +37,6 @@
             {% endfor %}
 
         </table>
-    {{ filter.qs }}
     </form>
 
 {% endblock %}

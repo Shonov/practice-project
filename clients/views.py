@@ -12,8 +12,8 @@ from django.utils import six
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from .filters import UserFilter
 
+from django.db.models import Q
 from django.views.generic import DeleteView, ListView, DetailView, UpdateView
 
 import hashlib
@@ -32,10 +32,33 @@ class ClientsListView(LoginRequiredMixin, ListView):
     def dispatch(self, request, *args, **kwargs):
         return super(ClientsListView, self).dispatch(request, *args, **kwargs)
 
+    def get_queryset(self):
+        if self.request.GET == {}:
+            return super(ClientsListView, self).get_queryset()
+        else:
+            name = self.request.GET.get('name', None)
+            surname = self.request.GET.get('surname', None)
+
+            if name and not surname:
+                result = Client.objects.all().filter(
+                    (Q(name__iexact=name))
+                )
+            elif not name and surname:
+                result = Client.objects.all().filter(
+                    (Q(surname__iexact=surname))
+                )
+            else:
+                result = Client.objects.all().filter(
+                    (Q(name__iexact=name)) &
+                    (Q(surname__iexact=surname))
+                )
+
+            return result
+
     def get_ordering(self):
-        self.ordering = self.request.GET.get('order', 'field')
+        self.ordering = self.request.GET.get('order', 'value')
         order = self.request.GET.get('order', 'name')
-        if self.ordering == 'field':
+        if self.ordering == 'value':
             order = "-" + order
         return order
 
@@ -44,13 +67,6 @@ class ClientsListView(LoginRequiredMixin, ListView):
         context['order'] = self.ordering
         return context
 
-    def search(self):
-        if
-        client_list = Client.objects.all().filter(self.request.GET)
-        client_list = Client.objects.all()
-        client_filter = UserFilter(queryset=client_list)
-        print(self.request.GET)
-        return render(self, 'clients/search.html', {'filter': client_filter})
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login/'
@@ -157,8 +173,3 @@ class DeleteClient(DeleteView):
         obj = super(DeleteClient, self).get_object()
         if not obj.creator_id == self.request.user.id:
             return obj
-class Search():
-    def search(request):
-        user_list = User.objects.all()
-        user_filter = UserFilter(request.GET, queryset=user_list)
-        return render(request, 'search/search.html', {'filter': user_filter})
