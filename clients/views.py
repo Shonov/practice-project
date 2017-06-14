@@ -4,18 +4,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import Http404
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
-from django.utils import six
-from django.urls import reverse
-from django.contrib.auth.models import User
-from django.shortcuts import render
-
 from django.db.models import Q
 from django.views.generic import DeleteView, ListView, DetailView, UpdateView
-
+from openpyxl import Workbook
 import hashlib
 import random
 
@@ -173,3 +168,21 @@ class DeleteClient(DeleteView):
         obj = super(DeleteClient, self).get_object()
         if not obj.creator_id == self.request.user.id:
             return obj
+
+
+def save_to_xlsx_format(request):
+    # Создание файла
+    ws = Workbook()
+    wb=ws.active
+    clients = Client.objects.all()
+    # for client in clients:
+    # for i in range()
+    # wb['B2'] =
+    i = 1
+    for cl in clients:
+        wb['A' + str(i)] = cl.name
+        wb['B' + str(i)] = cl.surname
+        wb['C' + str(i)] = str(cl.birth_Day)
+        i += 1
+    ws.save('file.xlsx')
+    return render(request, 'clients/clients_list_view.html', {'wb': ws})

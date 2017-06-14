@@ -1,3 +1,4 @@
+openpyxl
 Django==1.11.1
 django-filter==1.0.4
 django-filters==0.2.1
