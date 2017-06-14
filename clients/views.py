@@ -11,8 +11,14 @@ from django.utils.decorators import method_decorator
 from django.db.models import Q
 from django.views.generic import DeleteView, ListView, DetailView, UpdateView
 from openpyxl import Workbook
+
 import hashlib
 import random
+import io
+
+from django.http.response import HttpResponse
+
+from xlsxwriter.workbook import Workbook
 
 from clients.forms import RegisterForm, ClientRegisterForm
 from clients.models import Client
@@ -61,6 +67,36 @@ class ClientsListView(LoginRequiredMixin, ListView):
         context = super(ClientsListView, self).get_context_data(*args, **kwargs)
         context['order'] = self.ordering
         return context
+
+    def save_to_xlsx_format(self):
+        output = io.BytesIO()
+
+        workbook = Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+
+        i = 0
+        clients = Client.objects.all()
+        q = Client()._meta
+        q = [f.name for f in q.fields]
+
+        worksheet.write(i, 0, q[2])
+        worksheet.write(i, 1, q[3])
+        worksheet.write(i, 2, q[4])
+
+        for cl in clients:
+            i += 1
+            worksheet.write(i, 0, cl.name)
+            worksheet.write(i, 1, cl.surname)
+            worksheet.write(i, 2, str(cl.birth_Day))
+
+        workbook.close()
+
+        output.seek(0)
+
+        response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response['Content-Disposition'] = "attachment; filename=test.xlsx"
+
+        return response
 
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
@@ -168,21 +204,3 @@ class DeleteClient(DeleteView):
         obj = super(DeleteClient, self).get_object()
         if not obj.creator_id == self.request.user.id:
             return obj
-
-
-def save_to_xlsx_format(request):
-    # Создание файла
-    ws = Workbook()
-    wb=ws.active
-    clients = Client.objects.all()
-    # for client in clients:
-    # for i in range()
-    # wb['B2'] =
-    i = 1
-    for cl in clients:
-        wb['A' + str(i)] = cl.name
-        wb['B' + str(i)] = cl.surname
-        wb['C' + str(i)] = str(cl.birth_Day)
-        i += 1
-    ws.save('file.xlsx')
-    return render(request, 'clients/clients_list_view.html', {'wb': ws})

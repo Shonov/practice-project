@@ -19,8 +19,9 @@ urlpatterns = [
     url(r'^info_clients/(?P<pk>[0-9]+)/delete/$', views.ClientDeleteView.as_view(), name='delete_clients'),
     url(r'^info_clients/(?P<pk>[0-9]+)/update/$', views.ClientUpdateView.as_view(), name='update_client'),
     url(r'^info_clients/search/$', views.ClientsListView.as_view(), name='search'),
-    url(r'^info_clients/download$', views.save_to_xlsx_format, name='download'),
+    url(r'^info_clients/download$', views.ClientsListView.save_to_xlsx_format, name='download'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()
+
