@@ -11,8 +11,14 @@ from django.utils.decorators import method_decorator
 from django.db.models import Q
 from django.views.generic import DeleteView, ListView, DetailView, UpdateView
 from openpyxl import Workbook
+
 import hashlib
 import random
+import io
+
+from django.http.response import HttpResponse
+
+from xlsxwriter.workbook import Workbook
 
 from clients.forms import RegisterForm, ClientRegisterForm
 from clients.models import Client
@@ -27,28 +33,20 @@ class ClientsListView(LoginRequiredMixin, ListView):
     def dispatch(self, request, *args, **kwargs):
         return super(ClientsListView, self).dispatch(request, *args, **kwargs)
 
+    def index(self):
+        clients = Client.objects.all()
+        return render(self, 'clients/index.html', {'clients': clients})
+
     def get_queryset(self):
-        if self.request.GET == {}:
-            return super(ClientsListView, self).get_queryset()
-        else:
-            name = self.request.GET.get('name', None)
-            surname = self.request.GET.get('surname', None)
+        queryset = super(ClientsListView, self).get_queryset()
+        name = self.request.GET.get('name', None)
+        if name:
+            queryset = Client.objects.all().filter(
+                (Q(name__icontains=name)) |
+                (Q(surname__icontains=name))
+            )
 
-            if name and not surname:
-                result = Client.objects.all().filter(
-                    (Q(name__iexact=name))
-                )
-            elif not name and surname:
-                result = Client.objects.all().filter(
-                    (Q(surname__iexact=surname))
-                )
-            else:
-                result = Client.objects.all().filter(
-                    (Q(name__iexact=name)) &
-                    (Q(surname__iexact=surname))
-                )
-
-            return result
+        return queryset
 
     def get_ordering(self):
         self.ordering = self.request.GET.get('order', 'value')
@@ -62,6 +60,44 @@ class ClientsListView(LoginRequiredMixin, ListView):
         context['order'] = self.ordering
         return context
 
+    def save_to_xlsx_format(self):
+        output = io.BytesIO()
+
+        workbook = Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+
+        i = 0
+        clients = Client.objects.all()
+        q = Client()._meta
+        q = [f.name for f in q.fields]
+
+        worksheet.write(i, 0, q[2])
+        worksheet.write(i, 1, q[3])
+        worksheet.write(i, 2, q[4])
+
+        for cl in clients:
+            i += 1
+            worksheet.write(i, 0, cl.name)
+            worksheet.write(i, 1, cl.surname)
+            worksheet.write(i, 2, str(cl.birth_Day))
+
+        workbook.close()
+
+        output.seek(0)
+
+        response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response['Content-Disposition'] = "attachment; filename=test.xlsx"
+
+        return response
+
+    def add_like(self):
+        try:
+            client.likes += 1
+            print(client)
+            client.save()
+        except ObjectDoesNotExist:
+            return Http404
+        return redirect('/')
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login/'
@@ -79,9 +115,7 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
 class ClientDeleteView(DeleteView):
     model = Client
     template_name = 'clients/client_details.html'
-
-    def get_success_url(self):
-        return '/info_clients/'
+    success_url = '/clients/'
 
     def get_object(self):
         obj = super(ClientDeleteView, self).get_object()
@@ -96,6 +130,15 @@ class ClientUpdateView(UpdateView):
     template_name = 'clients/update_client.html'
     success_url = '/info_clients/'
 
+
+class JSONResponse(HttpResponse):
+    """
+    An HttpResponse that renders its content into JSON.
+    """
+    def __init__(self, data, **kwargs):
+        content = JSONRenderer().render(data)
+        kwargs['content_type'] = 'application/json'
+        super(JSONResponse, self).__init__(content, **kwargs)
 
 def activate(request, id, token):
     """
@@ -127,9 +170,6 @@ def create_client(request):
         form = ClientRegisterForm()
     return render(request, 'clients/client_add.html', {'form': form})
 
-
-def index(request):
-    return render(request, 'clients/index.html')
 
 
 def register(request):
@@ -168,21 +208,3 @@ class DeleteClient(DeleteView):
         obj = super(DeleteClient, self).get_object()
         if not obj.creator_id == self.request.user.id:
             return obj
-
-
-def save_to_xlsx_format(request):
-    # Создание файла
-    ws = Workbook()
-    wb=ws.active
-    clients = Client.objects.all()
-    # for client in clients:
-    # for i in range()
-    # wb['B2'] =
-    i = 1
-    for cl in clients:
-        wb['A' + str(i)] = cl.name
-        wb['B' + str(i)] = cl.surname
-        wb['C' + str(i)] = str(cl.birth_Day)
-        i += 1
-    ws.save('file.xlsx')
-    return render(request, 'clients/clients_list_view.html', {'wb': ws})

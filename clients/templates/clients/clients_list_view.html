@@ -7,11 +7,7 @@
         {% csrf_token %}
         <h4>Search</h4>
 
-        <label for="id_name">Name:</label><br>
         <input type="search" name="name" maxlength="30" id="id_name"/><br>
-
-        <label for="id_surname">Surname:</label><br>
-        <input type="search" name="surname" maxlength="30" id="id_surname"/><br>
 
         <button type="submit">Search</button>
     </form>
@@ -39,10 +35,7 @@
             {% endfor %}
         </table>
     </form>
-        <form action="{% url 'download' %}" method="get" enctype="multipart/form-data">
-    {#        <a href="{% url 'download' %}" download>Download</a>#}
-            <button type="submit">Скачать</button>
-    {#        {{ wb }}#}
-    {#    </form>#}
-    <a href="{% url 'download' %}" download>Download</a>
+
+        <a href="{% url 'download' %}" download>Download</a>
+
 {% endblock %}

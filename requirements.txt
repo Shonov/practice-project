@@ -1,3 +1,4 @@
+xlsxwriter
 openpyxl
 Django==1.11.1
 django-filter==1.0.4

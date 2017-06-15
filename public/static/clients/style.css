@@ -60,11 +60,19 @@ footer p {
 }
 
 a {
-text-decoration: none;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 input {
     line-height: normal;
+}
+
+img {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    margin: 10px 10px;
 }
 
 button {
@@ -166,20 +174,6 @@ tr:hover td {
 	background: #ccddff;
 }
 
-div {
-  display: none; } /* Делаем блок по-умолчанию невидимым */
-
-div:target {
-  display: block; } /* Выделенный блок видим */
-
-/* Теперь магия, т.е. регулярные выражения, для удобства */
-
-div[id*=t]:target ~ #one { /* Для всех блоков, содержащих "t" в идентификаторе, делаем #one невидимым */
-  display: none; } /* Обошлись одной буквой конкретно в этом случае, иначе придётся просто прописывать "tab" для всех вкладок сразу и отдельно для каждого не-#one */
-
-div[id*=tab]:target ~ #three { /* На последок, для всех вкладок делаем третью страницу видимой */
-  display: none; }
-
 .top-bar ul li {
     list-style-type: none;
 }
@@ -198,4 +192,33 @@ div[id*=tab]:target ~ #three { /* На последок, для всех вкл�
 
 #form_sort {
     border: none;
+}
+
+.i_like {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    background-size: 100%!important;
+    background: url(/public/like.png) no-repeat;
+}
+
+.number_like {
+    color: white;
+}
+
+.item_like {
+    color: #2a5885;
+    padding: 5px 6px 6px;
+    margin-right: 100px;
+    width:40px;
+}
+
+
+.div_like {
+    display: inline-block;
+    width: 220px;
+    height: 300px;
+    margin-right: 10px;
 }

@@ -19,9 +19,10 @@
 
         <label>Birth Day:</label>
         {{ client.birth_Day }}<br>
-
-        <button type="submit">Delete</button>
-        <a href="{% url 'update_client' object.id %}" class="button">Update</a>
+        {% if object.creator_id ==  user.id %}
+            <button type="submit">Delete</button>
+            <a href="{% url 'update_client' object.id %}" class="button">Update</a>
+        {% endif %}
         <button  type="button" onclick="window.history.go(-1);">Back</button>
     </form>
     {% for error in field.errors %}
