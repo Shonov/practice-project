@@ -33,28 +33,20 @@ class ClientsListView(LoginRequiredMixin, ListView):
     def dispatch(self, request, *args, **kwargs):
         return super(ClientsListView, self).dispatch(request, *args, **kwargs)
 
+    def index(self):
+        clients = Client.objects.all()
+        return render(self, 'clients/index.html', {'clients': clients})
+
     def get_queryset(self):
-        if self.request.GET == {}:
-            return super(ClientsListView, self).get_queryset()
-        else:
-            name = self.request.GET.get('name', None)
-            surname = self.request.GET.get('surname', None)
+        queryset = super(ClientsListView, self).get_queryset()
+        name = self.request.GET.get('name', None)
+        if name:
+            queryset = Client.objects.all().filter(
+                (Q(name__icontains=name)) |
+                (Q(surname__icontains=name))
+            )
 
-            if name and not surname:
-                result = Client.objects.all().filter(
-                    (Q(name__iexact=name))
-                )
-            elif not name and surname:
-                result = Client.objects.all().filter(
-                    (Q(surname__iexact=surname))
-                )
-            else:
-                result = Client.objects.all().filter(
-                    (Q(name__iexact=name)) &
-                    (Q(surname__iexact=surname))
-                )
-
-            return result
+        return queryset
 
     def get_ordering(self):
         self.ordering = self.request.GET.get('order', 'value')
@@ -98,6 +90,14 @@ class ClientsListView(LoginRequiredMixin, ListView):
 
         return response
 
+    def add_like(self):
+        try:
+            client.likes += 1
+            print(client)
+            client.save()
+        except ObjectDoesNotExist:
+            return Http404
+        return redirect('/')
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login/'
@@ -115,9 +115,7 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
 class ClientDeleteView(DeleteView):
     model = Client
     template_name = 'clients/client_details.html'
-
-    def get_success_url(self):
-        return '/info_clients/'
+    success_url = '/clients/'
 
     def get_object(self):
         obj = super(ClientDeleteView, self).get_object()
@@ -132,6 +130,15 @@ class ClientUpdateView(UpdateView):
     template_name = 'clients/update_client.html'
     success_url = '/info_clients/'
 
+
+class JSONResponse(HttpResponse):
+    """
+    An HttpResponse that renders its content into JSON.
+    """
+    def __init__(self, data, **kwargs):
+        content = JSONRenderer().render(data)
+        kwargs['content_type'] = 'application/json'
+        super(JSONResponse, self).__init__(content, **kwargs)
 
 def activate(request, id, token):
     """
@@ -163,9 +170,6 @@ def create_client(request):
         form = ClientRegisterForm()
     return render(request, 'clients/client_add.html', {'form': form})
 
-
-def index(request):
-    return render(request, 'clients/index.html')
 
 
 def register(request):

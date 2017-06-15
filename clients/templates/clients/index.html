@@ -1,5 +1,17 @@
 {% extends 'clients/base.html' %}
 
 {% block content %}
-
+    {% for client in clients %}
+         {% if client.photo %}
+            <div class="div_like">
+                <img src="{{ MEDIA_URL }}{{ client.photo.url }} ", name="{{ client.id }}"><br>
+                <a href="{% url 'like' %}" class="item_like" id="item_like">
+                    <i class="i_like"></i>
+                    <b class="number_like" id="number_like">{{ client.likes }}</b>
+                </a>
+            </div>
+         {% endif %}
+    {% endfor %}
 {% endblock %}
+
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>

@@ -8,6 +8,7 @@ class Client(models.Model):
     surname = models.CharField(max_length=30)
     birth_Day = models.DateField(blank=False, null=False)
     photo = models.ImageField(upload_to="photos/", null=True, blank=True, default="photos/no_foto.png", verbose_name='')
+    likes = models.IntegerField(verbose_name='Нравится', default=0)
 
     @property
     def age(self):
