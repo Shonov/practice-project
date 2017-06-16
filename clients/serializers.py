@@ -1,8 +1,8 @@
-from django.contrib.auth.models import User
+from clients.models import Client
 from rest_framework import serializers
 
 
 class ClientSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Client
-        fields = ('name', 'surname', 'birth_Day')
+        fields = ('name', 'surname', 'photo', 'likes')

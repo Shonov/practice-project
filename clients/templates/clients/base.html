@@ -5,6 +5,15 @@
 <header>
     <a class="logo" href="/">Web site</a>
     <nav class="top-bar">
+{#          {% if not user.is_anonymous %}#}
+{#              <a href="/">{{ user }}</a>#}
+{#              <a href="{% url 'create_client' %}">Create client</a>#}
+{#              <a href="{% url 'clients_list_view' %}">Info clients</a>#}
+{#              <a href="{% url 'logout' %}">Logout</a>#}
+{#          {% else %}#}
+{#              <a href="{% url 'register' %}">Sign up</a>#}
+{#              <a href="{% url 'login' %}">Sign in</a>#}
+{#          {% endif %}#}
 
         <ul>
           {% if not user.is_anonymous %}
@@ -18,7 +27,7 @@
           {% endif %}
         </ul>
 
-    </nav>
+{#    </nav>#}
 </header>
 
     {% block content %}
@@ -27,3 +36,6 @@
 <footer>
     <p>&copy In the roles: Denis Yavich and Vitaly Shonov</p>
 </footer>
+
+{% block script %}
+{% endblock %}
