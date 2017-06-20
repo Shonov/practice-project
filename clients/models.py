@@ -1,5 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+from django.utils import timezone
 
 
 class Client(models.Model):
@@ -16,3 +17,9 @@ class Client(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Comment(models.Model):
+    author = models.ForeignKey('auth.User', default='Anonymous')
+    text = models.TextField()
+    time = models.DateTimeField(default=timezone.now)

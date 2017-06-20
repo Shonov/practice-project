@@ -171,7 +171,6 @@ def create_client(request):
     return render(request, 'clients/client_add.html', {'form': form})
 
 
-
 def register(request):
     """
     registration of user with sending message and confirmation on mail
@@ -197,14 +196,3 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'clients/register.html', {'form': form})
-
-
-class DeleteClient(DeleteView):
-    model = Client
-    template_name = 'clients/client_details.html'
-    success_url = '/info_clients/'
-
-    def get_object(self):
-        obj = super(DeleteClient, self).get_object()
-        if not obj.creator_id == self.request.user.id:
-            return obj
