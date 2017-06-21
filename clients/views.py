@@ -150,6 +150,7 @@ def add_like(request):
         if client.likes >= 10:
             messages.info(request, 'Yo! Voting for this client is finished!')
             return JsonResponse({'like': 10})
+
         client.likes += 1
         client.save()
         like = client.likes
