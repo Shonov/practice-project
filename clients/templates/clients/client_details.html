@@ -19,14 +19,29 @@
 
         <label>Birth Day:</label>
         {{ client.birth_Day }}<br>
+
+        {#        <table class="table">#}
+        {#            <tr>#}
         {% if object.creator_id ==  user.id %}
+            {#                    <td class="nostyle">#}
             <button type="submit">Delete</button>
+            {#                    </td>#}
+            {#                    <td class="nostyle">#}
             <a href="{% url 'update_client' object.id %}" class="button">Update</a>
+            {#                    </td>#}
         {% endif %}
-        <button  type="button" onclick="window.history.go(-1);">Back</button>
+        {#                <td class="nostyle">#}
+        <button type="button" onclick="window.history.go(-1);">Back</button>
+        {#                </td>#}
+        {#            </tr>#}
+        {#        </table>#}
     </form>
     {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-
+        <p style="color: red">{{ error }}</p>
+    {% endfor %}
+{#    {% for comm in comment %}#}
+        <label>Comments</label>
+        {{ comment.text }}
+        {#    {% for comment in  %}#}
+{#    {% endfor %}#}
 {% endblock %}

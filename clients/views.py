@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -9,8 +8,9 @@ from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
+from django.utils import timezone
 from django.db.models import Q
-from django.views.generic import DeleteView, ListView, DetailView, UpdateView
+from django.views.generic import DeleteView, ListView, DetailView, UpdateView, CreateView
 from openpyxl import Workbook
 
 import hashlib
@@ -21,8 +21,8 @@ from django.http.response import HttpResponse
 
 from xlsxwriter.workbook import Workbook
 
-from clients.forms import RegisterForm, ClientRegisterForm
-from clients.models import Client
+from clients.forms import RegisterForm, ClientRegisterForm, CommentForm
+from clients.models import Client, Comment
 
 from clients.serializers import ClientSerializer
 from rest_framework import viewsets
@@ -106,6 +106,7 @@ class ClientsListView(LoginRequiredMixin, ListView):
         return response
 
 
+
 class ClientDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login/'
     model = Client
@@ -160,6 +161,7 @@ def add_like(request):
 def index(request):
     clients = Client.objects.all()
     return render(request, 'clients/index.html', {'clients': clients})
+
 
 
 def activate(request, id, token):
@@ -218,3 +220,30 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'clients/register.html', {'form': form})
+
+# class CommentView()
+
+#
+# def comment_new(request):
+#     if request.method == "POST":
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             post = form.save(commit=False)
+#             if not request.user.is_authenticated():
+#                 request.user = 'Anonymous'
+#             else:
+#                 post.author = request.user
+#             post.published_date = timezone.now()
+#             post.save()
+#             return redirect('client_detail', pk=post.pk)
+#     else:
+#         form = CommentForm()
+#     return render(request, 'clients/client_details.html', {'form': form})
+
+
+class CommentAddView(CreateView):
+    form_class = Comment
+    context_object_name = 'comment'
+    template_name = 'clients/client_details.html'
+    success_url = 'client_details'
+

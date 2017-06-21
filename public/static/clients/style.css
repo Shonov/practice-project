@@ -18,23 +18,26 @@ body {
 }
 
 header {
-	background-color: darkblue;
-	padding: 10px 30px;
+    background-color: darkblue;
+    padding: 10px 30px;
 }
 
 header nav {
-    float: right;
+	float: right;
 }
 
 header li {
-	display: inline-block;
-	padding: 0 15px;
-    margin-top: 5px;
+    display: inline-block;
+    padding: 15px 15px;
 }
 
-header  li a {
-    margin-top: 25px;
-	color: #fff;
+header a {
+    margin-top: 10px;
+}
+
+header li a {
+    margin-top: 15px;
+    color: #fff;
 }
 
 header li a:hover {
@@ -43,10 +46,9 @@ header li a:hover {
 
 footer {
     position: absolute;
-    left: 0;
-    bottom: 0;
     width: 100%;
-	background-color: darkblue;
+    bottom: 0;
+    left: 0;
 }
 
 footer p {
@@ -65,8 +67,8 @@ input {
 
 img {
     display: inline-block;
-    width: 100%;
-    height: 100%;
+    width: 200px;
+    height: 200px;
     margin: 10px 10px;
 }
 
@@ -121,6 +123,10 @@ form button {
     margin: 0;
 }
 
+.table {
+    margin: auto;
+}
+
 .button {
     -webkit-writing-mode: horizontal-tb;
     -webkit-appearance: button;
@@ -130,8 +136,7 @@ form button {
     text-align: center;
     cursor: default;
     color: buttontext;
-    margin: 0px  0px 0px 145px;
-	padding: 8px 10px;
+    padding: 8px 10px;
     border: 2px outset buttonface;
     text-decoration: none;
     text-transform: none;
@@ -139,34 +144,47 @@ form button {
     display: inline-block;
     font: 13.3333px Arial;
     height: auto;
-    float:right;
+    float: right;
 
 }
 
 form select {
-	margin-top: 10px;
+    margin-top: 10px;
 }
 
 th {
-  font-size: 18px;
-  font-weight: normal;
-  background: #b9c9fe;
-  border-top: 4px solid #aabcfe;
-  border-bottom: 1px solid #fff;
-  color: #039;
-  padding: 8px;
+    font-size: 18px;
+    font-weight: normal;
+    background: #b9c9fe;
+    border-top: 4px solid #aabcfe;
+    border-bottom: 1px solid #fff;
+    color: #039;
+    padding: 8px;
 }
 
 td {
-  background: #e8edff;
-  border-bottom: 1px solid #fff;
-  color: #669;
-  border-top: 1px solid transparent;
-  padding: 8px;
+    background: #e8edff;
+    border-bottom: 1px solid #fff;
+    color: #669;
+    border-top: 1px solid transparent;
+    padding: 8px;
 }
 
 tr:hover td {
-	background: #ccddff;
+    background: #ccddff;
+}
+
+.nostyle {
+    background: none;
+    border-bottom: none;
+    color: inherit;
+    border-top: none;
+    padding: 0;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+
+
 }
 
 .top-bar ul li {
@@ -174,9 +192,9 @@ tr:hover td {
 }
 
 .logo {
-	font: 26px/26px monospace, Verdana, Arial, sans-serif;
-	color: #eee;
-	display: inline-block;
+    font: 26px/26px monospace, Verdana, Arial, sans-serif;
+    color: #eee;
+    display: inline-block;
 }
 
 .error {
@@ -193,9 +211,9 @@ tr:hover td {
     display: inline-block;
     width: 20px;
     height: 20px;
-    /*margin: 0 0 0 15px;*/
+    margin: 0;
     padding: 0;
-    background-size: 100%!important;
+    background-size: 100% !important;
     background: url(/public/like.png) no-repeat;
 }
 
@@ -206,6 +224,8 @@ tr:hover td {
 #item_like {
     color: #2a5885;
     padding: 5px 6px 6px;
+    margin-right: 100px;
+    width: 40px;
     margin: 0 0 0 15px;
 }
 
@@ -223,4 +243,13 @@ tr:hover td {
 
 .name {
     margin: 0 0 0 45px;
+}
+
+.download {
+    margin-left: 50%;
+}
+
+ul li {
+    display: inline-block;
+
 }

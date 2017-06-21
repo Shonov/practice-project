@@ -25,8 +25,8 @@ urlpatterns = [
     url(r'^clients/(?P<pk>[0-9]+)/update/$', views.ClientUpdateView.as_view(), name='update_client'),
     url(r'^clients/search/$', views.ClientsListView.as_view(), name='search'),
     url(r'^clients/download$', views.ClientsListView.save_to_xlsx_format, name='download'),
+    url(r'^clients/(?P<pk>[0-9]+)/$', views.CommentAddView.as_view(), name='new_comment'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()
-

@@ -20,6 +20,10 @@ class Client(models.Model):
 
 
 class Comment(models.Model):
-    author = models.ForeignKey('auth.User', default='Anonymous')
-    text = models.TextField()
+    author = models.ForeignKey('auth.User')
+    text = models.TextField(verbose_name='Комментарий')
     time = models.DateTimeField(default=timezone.now)
+
+    def publish(self):
+        self.time = timezone.now()
+        self.save()
