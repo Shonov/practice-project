@@ -4,8 +4,7 @@ $().ready( function(){
 
         let id = $(this).attr("data-id");
         let full_id = '#id_like_' + id;
-
-        console.log(full_id);
+        let message = '#message_' + id;
 
         $.ajax({
             url: 'like/',
@@ -13,9 +12,9 @@ $().ready( function(){
             dataType: 'json',
             data: {'client_id': id},
             success: function (data) {
-                console.log(data['like'])
-                // let count = parseInt($(full_id).text());
                 $(full_id).html(data['like']);
+                console.log(data);
+                $(message).html(data.message);
             }
             // error: function(data, textStatus) {
             //     alert([data.status, textStatus]);

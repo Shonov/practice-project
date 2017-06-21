@@ -1,6 +1,11 @@
 {% extends 'clients/base.html' %}
 {% load staticfiles %}
 
+{% block messages %}
+{% endblock %}
+
+
+
 {% block content %}
     {% for client in clients %}
          {% if client.photo %}
@@ -12,24 +17,14 @@
                 <a id="item_like" href="#" data-id="{{client.id}}">
                     <i class="i_like"></i>
                     <span id="id_like_{{client.id}}">{{ client.likes }}</span>
-                </a>
+                </a><br>
+                <span class="message" id="message_{{client.id}}"></span>
             </div>
-
-             {% if messages %}
-                <ul class="messages">
-                   {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                    {{ message }}
-                    </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-
         {% endif %}
     {% endfor %}
 {% endblock %}
 
 {% block script %}
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="{% static 'clients/jquery-1.11.1.min.js' %}"></script>
     <script src="{% static 'clients/ajax.js' %}"></script>
 {% endblock %}

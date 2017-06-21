@@ -42,9 +42,8 @@ header li a:hover {
 }
 
 footer {
-    position: absolute;
     left: 0;
-    bottom: 0;
+    margin-top: 5%;
     width: 100%;
 	background-color: darkblue;
 }
@@ -210,17 +209,23 @@ tr:hover td {
 }
 
 #item_like:hover {
-    /*color: black;*/
     background-color: lightskyblue;
 }
 
 .div_like {
     display: inline-block;
-    width: 220px;
-    height: 300px;
-    margin-right: 10px;
+    vertical-align: middle;
+    text-align: center;
+    margin: 2% 3%;
+    width: 320px;
+    height: 400px;
 }
 
 .name {
     margin: 0 0 0 45px;
+}
+
+.message {
+    color: red;
+    font: bold italic 22px serif;
 }

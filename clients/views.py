@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -148,15 +147,14 @@ def add_like(request):
     client = Client.objects.get(id=client_id)
     if client:
         if client.likes >= 10:
-            messages.info(request, 'Yo! Voting for this client is finished!')
-            return JsonResponse({'like': 10})
+            message = 'Voting for this client is finished!'
+            return JsonResponse({'like': 10, 'message': message})
 
         client.likes += 1
         client.save()
         like = client.likes
 
     return JsonResponse({'like': like})
-
 
 def index(request):
     clients = Client.objects.all()
