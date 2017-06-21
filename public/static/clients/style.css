@@ -42,12 +42,10 @@ header li a:hover {
 }
 
 footer {
-	position: relative;
-	width: 100%;
-    height: 4%;
-	bottom: 0;
-    top: 50px;
-	left: 0;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 	background-color: darkblue;
 }
 
@@ -67,8 +65,8 @@ input {
 
 img {
     display: inline-block;
-    width: 200px;
-    height: 200px;
+    width: 100%;
+    height: 100%;
     margin: 10px 10px;
 }
 
@@ -195,7 +193,7 @@ tr:hover td {
     display: inline-block;
     width: 20px;
     height: 20px;
-    margin: 0;
+    /*margin: 0 0 0 15px;*/
     padding: 0;
     background-size: 100%!important;
     background: url(/public/like.png) no-repeat;
@@ -208,11 +206,12 @@ tr:hover td {
 #item_like {
     color: #2a5885;
     padding: 5px 6px 6px;
-    margin-right: 100px;
+    margin: 0 0 0 15px;
 }
 
-#number_like:hover {
-    color: black;
+#item_like:hover {
+    /*color: black;*/
+    background-color: lightskyblue;
 }
 
 .div_like {
@@ -220,4 +219,8 @@ tr:hover td {
     width: 220px;
     height: 300px;
     margin-right: 10px;
+}
+
+.name {
+    margin: 0 0 0 45px;
 }

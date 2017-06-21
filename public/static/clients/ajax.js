@@ -1,24 +1,27 @@
-$.ready(function () {
-     $(".item_like").click(function (e) {
-        alert('/client/like/');
+$().ready( function(){
+    $("a#item_like").click(function (e) {
         e.preventDefault();
+
+        let id = $(this).attr("data-id");
+        let full_id = '#id_like_' + id;
+
+        console.log(full_id);
+
         $.ajax({
             url: 'like/',
             type: 'GET',
-            dataType: JSON,
-            data: {
-                'client_id': $("input[type=hidden]").val(),
-                'like': $("#number_like").text()
-            },
+            dataType: 'json',
+            data: {'client_id': id},
             success: function (data) {
-                alert('Voice counted!');
-                let count = parseInt($("#number_like").text());
-                $("#number_like").html(count+1);
-                console.log('good' + data);
-            },
-            error: function() {
-                console.log('error')
+                console.log(data['like'])
+                // let count = parseInt($(full_id).text());
+                $(full_id).html(data['like']);
             }
+            // error: function(data, textStatus) {
+            //     alert([data.status, textStatus]);
+            // },
+
         });
-     });
+        return false;
+    });
 });

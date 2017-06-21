@@ -10,12 +10,9 @@ from clients import views
 from rest_framework import routers
 from rest_framework.routers import DefaultRouter
 
-# router = routers.SimpleRouter()
-# router.register(r'client_list', ClientsListPhoto)
-
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^$', views.ClientsListView.add_like, name='like'),
+    url(r'^like/$', views.add_like, name='like'),
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', auth_views.LoginView.as_view(template_name='clients/login.html'), name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(template_name='clients/index.html'), name='logout'),
@@ -29,8 +26,6 @@ urlpatterns = [
     url(r'^clients/search/$', views.ClientsListView.as_view(), name='search'),
     url(r'^clients/download$', views.ClientsListView.save_to_xlsx_format, name='download'),
 ]
-
-# urlpatterns += router.urls
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()

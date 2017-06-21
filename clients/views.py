@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -46,16 +47,6 @@ class ClientsListView(LoginRequiredMixin, ListView):
     template_name = "clients/clients_list_view.html"
     ordering = 'name'
 
-    def add_like(self):
-        dict = {}
-        client_id = self.request.GET.get('client_id')
-        dict['client_id'] = client_id
-        like = self.request.GET.get('like')
-        client = Client.objects.get(pk=client_id)
-        client.likes = like
-        dict['like'] = client.likes
-        client.save()
-        return JsonResponse(json.dumps(dict), content_type="application/json")
 
     @method_decorator(login_required())
     def dispatch(self, request, *args, **kwargs):
@@ -144,7 +135,26 @@ class ClientUpdateView(UpdateView):
     form_class = ClientRegisterForm
     model = Client
     template_name = 'clients/update_client.html'
-    success_url = '/info_clients/'
+    success_url = '/clients/'
+
+
+def add_like(request):
+    client_id = None
+    like = 0
+
+    if request.method == "GET":
+        client_id = request.GET.get('client_id')
+
+    client = Client.objects.get(id=client_id)
+    if client:
+        if client.likes >= 10:
+            messages.info(request, 'Yo! Voting for this client is finished!')
+            return JsonResponse({'like': 10})
+        client.likes += 1
+        client.save()
+        like = client.likes
+
+    return JsonResponse({'like': like})
 
 
 def index(request):
@@ -183,7 +193,6 @@ def create_client(request):
     return render(request, 'clients/client_add.html', {'form': form})
 
 
-
 def register(request):
     """
     registration of user with sending message and confirmation on mail
@@ -209,14 +218,3 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'clients/register.html', {'form': form})
-
-
-class DeleteClient(DeleteView):
-    model = Client
-    template_name = 'clients/client_details.html'
-    success_url = '/info_clients/'
-
-    def get_object(self):
-        obj = super(DeleteClient, self).get_object()
-        if not obj.creator_id == self.request.user.id:
-            return obj

@@ -5,19 +5,31 @@
     {% for client in clients %}
          {% if client.photo %}
             <div class="div_like">
-                <img src="{{ MEDIA_URL }}{{ client.photo.url }} ", name="{{ client.id }}"><br>
-                <a href="{% url 'info_clients' client.pk %}" class=".name">{{ client.name }} {{ client.surname }}</a>
-                <input type="hidden" id="client_id" value="{{ client.id }}">
-                <a href="{% url 'like' %}"  id="item_like">
+                <img src="{{ MEDIA_URL }}{{ client.photo.url }}", id="client_img"><br>
+
+                <a href="{% url 'info_clients' client.id %}" class="name">{{ client.name }} {{ client.surname }}</a>
+
+                <a id="item_like" href="#" data-id="{{client.id}}">
                     <i class="i_like"></i>
-                    <span id="number_like">{{ client.likes }}</span>
+                    <span id="id_like_{{client.id}}">{{ client.likes }}</span>
                 </a>
             </div>
-         {% endif %}
+
+             {% if messages %}
+                <ul class="messages">
+                   {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                    {{ message }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+        {% endif %}
     {% endfor %}
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'clients/jquery-3.2.1.min.js' %}"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="{% static 'clients/ajax.js' %}"></script>
 {% endblock %}
