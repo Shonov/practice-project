@@ -1,3 +1,4 @@
+simplejson
 xlsxwriter
 openpyxl
 Django==1.11.1

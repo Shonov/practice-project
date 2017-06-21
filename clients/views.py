@@ -1,9 +1,10 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.sites.shortcuts import get_current_site
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
@@ -23,19 +24,33 @@ from xlsxwriter.workbook import Workbook
 from clients.forms import RegisterForm, ClientRegisterForm
 from clients.models import Client
 
+from clients.serializers import ClientSerializer
+from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.mixins import ListModelMixin
+
+import json
+
+
+class ClientsListPhoto(ListModelMixin, viewsets.ViewSet):
+    """
+    A simple ViewSet for listing clients photo
+    """
+    def list(self):
+        queryset = Client.objects.all()
+        serializer = ClientSerializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 class ClientsListView(LoginRequiredMixin, ListView):
     model = Client
     template_name = "clients/clients_list_view.html"
     ordering = 'name'
 
+
     @method_decorator(login_required())
     def dispatch(self, request, *args, **kwargs):
         return super(ClientsListView, self).dispatch(request, *args, **kwargs)
-
-    def index(self):
-        clients = Client.objects.all()
-        return render(self, 'clients/index.html', {'clients': clients})
 
     def get_queryset(self):
         queryset = super(ClientsListView, self).get_queryset()
@@ -90,14 +105,6 @@ class ClientsListView(LoginRequiredMixin, ListView):
 
         return response
 
-    def add_like(self):
-        try:
-            client.likes += 1
-            print(client)
-            client.save()
-        except ObjectDoesNotExist:
-            return Http404
-        return redirect('/')
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login/'
@@ -128,17 +135,32 @@ class ClientUpdateView(UpdateView):
     form_class = ClientRegisterForm
     model = Client
     template_name = 'clients/update_client.html'
-    success_url = '/info_clients/'
+    success_url = '/clients/'
 
 
-class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
+def add_like(request):
+    client_id = None
+    like = 0
+
+    if request.method == "GET":
+        client_id = request.GET.get('client_id')
+
+    client = Client.objects.get(id=client_id)
+    if client:
+        if client.likes >= 10:
+            messages.info(request, 'Yo! Voting for this client is finished!')
+            return JsonResponse({'like': 10})
+        client.likes += 1
+        client.save()
+        like = client.likes
+
+    return JsonResponse({'like': like})
+
+
+def index(request):
+    clients = Client.objects.all()
+    return render(request, 'clients/index.html', {'clients': clients})
+
 
 def activate(request, id, token):
     """
