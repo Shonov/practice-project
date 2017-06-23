@@ -16,7 +16,7 @@ import hashlib
 import random
 import io
 
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, JsonResponse
 
 from xlsxwriter.workbook import Workbook
 
@@ -85,19 +85,12 @@ class ClientsListView(LoginRequiredMixin, ListView):
 
         output.seek(0)
 
-        response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response = HttpResponse(output.read(),
+                                content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         response['Content-Disposition'] = "attachment; filename=test.xlsx"
 
         return response
 
-    def add_like(self):
-        try:
-            client.likes += 1
-            print(client)
-            client.save()
-        except ObjectDoesNotExist:
-            return Http404
-        return redirect('/')
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login/'
@@ -135,10 +128,12 @@ class JSONResponse(HttpResponse):
     """
     An HttpResponse that renders its content into JSON.
     """
+
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
         kwargs['content_type'] = 'application/json'
         super(JSONResponse, self).__init__(content, **kwargs)
+
 
 def activate(request, id, token):
     """
@@ -169,7 +164,6 @@ def create_client(request):
     else:
         form = ClientRegisterForm()
     return render(request, 'clients/client_add.html', {'form': form})
-
 
 
 def register(request):
@@ -208,3 +202,23 @@ class DeleteClient(DeleteView):
         obj = super(DeleteClient, self).get_object()
         if not obj.creator_id == self.request.user.id:
             return obj
+
+
+def add_like(request):
+    client_id = None
+    like = 0
+
+    if request.method == "GET":
+        client_id = request.GET.get('client_id')
+
+    client = Client.objects.get(id=client_id)
+    if client:
+        if client.likes >= 10:
+            message = 'Voting for this client is finished!'
+            return JsonResponse({'like': 10, 'message': message})
+
+        client.likes += 1
+        client.save()
+        like = client.likes
+
+    return JsonResponse({'like': like})
