@@ -4,29 +4,74 @@
 {% block title %}Information of client{% endblock %}
 
 {% block content %}
-    <form action="{% url 'delete_clients' object.id %}" method="post">
-        {% csrf_token %}
-
-        {% if client.photo %}
-            <img src="{{ MEDIA_URL }}{{ client.photo.url }} ">
-        {% endif %}
-
-        <label>Name:</label>
-        {{ client.name }}<br>
-
-        <label>Username:</label>
-        {{ client.surname }}<br>
-
-        <label>Birth Day:</label>
-        {{ client.birth_Day }}<br>
-        {% if object.creator_id ==  user.id %}
-            <button type="submit">Delete</button>
-            <a href="{% url 'update_client' object.id %}" class="button">Update</a>
-        {% endif %}
-        <button  type="button" onclick="window.history.go(-1);">Back</button>
-    </form>
+    {#    <form action="{% url 'delete_clients' object.id %}" method="post">#}
+    {#        {% csrf_token %}#}
+    {##}
+    {#        {% if client.photo %}#}
+    {#            <img src="{{ MEDIA_URL }}{{ client.photo.url }} ">#}
+    {#        {% endif %}#}
+    {##}
+    {#        <label>Name:</label>#}
+    {#        {{ client.name }}<br>#}
+    {##}
+    {#        <label>Username:</label>#}
+    {#        {{ client.surname }}<br>#}
+    {##}
+    {#        <label>Birth Day:</label>#}
+    {#        {{ client.birth_Day }}<br>#}
+    {#        {% if object.creator_id ==  user.id %}#}
+    {#            <button type="submit" class="btn btn-sm btn-danger">Delete</button>#}
+    {#            <a class="btn btn-sm btn-warning" href="{% url 'update_client' object.id %}" class="button">Update</a>#}
+    {#        {% endif %}#}
+    {#        <button type="button" onclick="window.history.go(-1);">Back</button>#}
+    {#    </form>#}
     {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
+        <p style="color: red">{{ error }}</p>
+    {% endfor %}
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" align="center   ">{{ client.name }} {{ client.surname }}</h3>
+                    </div>
+                    <div class="panel-body co">
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 " align="center">{% if client.photo %}
+                                <img src="{{ MEDIA_URL }}{{ client.photo.url }} ">
+                            {% endif %}
+                                <div class=" col-md-9 col-lg-9 ">
+                                    <table class="table table-user-information">
+                                        <tbody>
+                                        <tr>
+                                            <td>Age</td>
+                                            {#                                    <td>{{ client.age }}</td>#}
+                                        </tr>
+                                        <tr>
+                                            <td>Date of Birth</td>
+                                            <td>{{ client.birth_Day }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <button type="button" class="btn btn-sm btn-primary" onclick="window.history.go(-1);">Back
+                            </button>
+                            {% if object.creator_id ==  user.id %}
+                                <button type="submit" class="btn btn-sm btn-danger" >Delete</button>
+                                <a class="btn btn-sm btn-warning" href="{% url 'update_client' object.id %}"
+                                   class="button">Update</a>
+                            {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

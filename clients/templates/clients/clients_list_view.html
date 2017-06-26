@@ -5,27 +5,37 @@
 {% block content %}
     <form method="get" action="{% url 'search' %}">
         {% csrf_token %}
-        <h4>Search</h4>
-
-        <input type="search" name="name" maxlength="30" id="id_name"/><br>
-
-        <button type="submit">Search</button>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                    <div class="input-group">
+                        <input type="search" name="name" class="form-control" placeholder="Search" maxlength="30"
+                               id="id_name"/><br>
+                        <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="submit">Search</button>
+                    </span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 
-    <form id="form_sort" method="get">
-
-
-        <table border="1">
-            <caption>Clients</caption>
+    <div class="container">
+        <table class="table q table-striped table-hover">
+            <caption class="text-center"><h1>Clients</h1></caption>
+            <thead>
             <tr>
                 <th><a href="{% url 'sort' %}?order={% if order == 'name' %}-name{% else %}name{% endif %}">Name</a>
                 </th>
-                <th><a href="{% url 'sort' %}?order={% if order == 'surname' %}-surname{% else %}surname{% endif %}">Username</a>
+                <th>
+                    <a href="{% url 'sort' %}?order={% if order == 'surname' %}-surname{% else %}surname{% endif %}">Username</a>
                 </th>
                 <th>
                     <a href="{% url 'sort' %}?order={% if order == 'birth_Day' %}-birth_Day{% else %}birth_Day{% endif %}">Birth
                         Day</a></th>
             </tr>
+            </thead>
+            <tbody>
             {% for client in client_list %}
                 <tr>
                     <td><a href="{% url 'info_clients' pk=client.pk %}"> {{ client.name }} </a></td>
@@ -33,9 +43,9 @@
                     <td><a href="{% url 'info_clients' pk=client.pk %}"> {{ client.birth_Day }} </a></td>
                 </tr>
             {% endfor %}
+            </tbody>
         </table>
-    </form>
 
-        <a href="{% url 'download' %}" download>Download</a>
+    </div>
 
 {% endblock %}

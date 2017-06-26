@@ -4,29 +4,32 @@
 
 {% block content %}
 
-{% if form.errors %}
-    <script>alert('Your username or password didn\'t match. Please try again.')</script>
-{% endif %}
-
-{% if next %}
-    {% if user.is_authenticated %}
-        user.pk
-    <p class="error">Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
+    {% if form.errors %}
+        <script>alert('Your username or password didn\'t match. Please try again.')</script>
     {% endif %}
-{% endif %}
 
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <h4>Sign in</h4>
+    {% if next %}
+        {% if user.is_authenticated %}
+            user.pk
+            <p class="error">Your account doesn't have access to this page. To proceed, please login with an account
+                that has access.</p>
+        {% endif %}
+    {% endif %}
 
-    {{ form.username.label_tag }}<br>
-    {{ form.username }}<br>
-    {{ form.password.label_tag }}<br>
-    {{ form.password }}<br>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="container">
+            <div class="">
+                <h4>Sign in</h4>
 
-    <button type="submit" value="login">Sign in</button>
-    <input type="hidden" name="next" value="{{ next }}" />
+                {{ form.username.label_tag }}<br>
+                {{ form.username }}<br>
+                {{ form.password.label_tag }}<br>
+                {{ form.password }}<br>
 
-</form>
-
+                <button type="submit" value="login">Sign in</button>
+                <input type="hidden" name="next" value="{{ next }}"/>
+            </div>
+        </div>
+    </form>
 {% endblock %}

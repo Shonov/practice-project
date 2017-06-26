@@ -10,8 +10,7 @@
                         <img src="{{ MEDIA_URL }}{{ client.photo.url }} " , name="{{ client.id }}"><br>
                         <div class="caption center-block">
                             <p>
-                                <a href="{% url 'info_clients' client.id %}"
-                                   class=""><strong>{{ client.name }} {{ client.surname }}</strong></a>
+                                <a href="{% url 'info_clients' client.id %}"><strong>{{ client.name }} {{ client.surname }}</strong></a>
                             </p>
                             <p id="item_like" href="#" data-id="{{ client.id }}">
                                 <i class="i_like"></i>

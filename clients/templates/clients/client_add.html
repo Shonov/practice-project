@@ -4,22 +4,26 @@
 
 {% block content %}
 
-    <form  method="post"  enctype="multipart/form-data">
+    <form method="post" role="form" enctype="multipart/form-data">
         {% csrf_token %}
-
-        <h4>Create of client</h4>
-        <label for="id_photo">Avatar:</label><br>
-        {% for field in form %}
-
-            {{ field.label_tag }}<br>
-            {{ field }}<br>
-            {% for error in field.errors %}
-              <p style="color: red">{{ error }}</p>
-            {% endfor %}
-
-        {% endfor %}
-
-        <button type="submit">Sign up</button>
+        <div class="container">
+            <div class="row">
+                <div class="well col-xs-12 col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+                    <div class="form-group">
+                        <h3>Create client</h3>
+                        <label for="id_photo">Avatar:</label>
+                        {% for field in form %}
+                            {{ field.label_tag }}<br>
+                            <div class="container"></div>
+                            {{ field }}<br>
+                            {% for error in field.errors %}
+                                <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                        <button class="btn btn-success ">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
-
 {% endblock %}
